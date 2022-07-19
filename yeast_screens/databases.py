@@ -61,6 +61,32 @@ def get_physical_interactions_yeastGenomeDotOrg():
 
     return gene_physical_pairwise_interactions
 
+
+def count_physical_interactions(df, gene_physical_pairwise_interactions):
+    num_physical_interactions = {}
+    oneplus_physical_interactions = {}
+    twoplus_physical_interactions = {}
+
+    for i,r in df.iterrows():
+        # alleles in gene_physical_pairwise_interactions are sorted
+        alleles = sorted(r['alleles'].split(","))
+        alleles = [gene_stem_name(i.upper()) for i in alleles]
+        allele_pairs = [tuple([alleles[0],alleles[1]]), 
+                        tuple([alleles[0],alleles[2]]), 
+                        tuple([alleles[1],alleles[2]])]
+        num_physical_interactions[r['alleles']] = 0
+        oneplus_physical_interactions[r['alleles']] = 0
+        twoplus_physical_interactions[r['alleles']] = 0
+        for p in allele_pairs:
+            if p in gene_physical_pairwise_interactions:
+                num_physical_interactions[r['alleles']] += 1
+                oneplus_physical_interactions[r['alleles']] = 1
+            if num_physical_interactions[r['alleles']] >= 2:
+                twoplus_physical_interactions[r['alleles']] = 1
+
+    return num_physical_interactions, oneplus_physical_interactions, twoplus_physical_interactions
+
+
 def get_go_info():
     db_dir = "/Users/bjarnold/Princeton_DataX/Epistasis/higher_order_reanalysis/yeast_screens/database/yeastgenome_dot_org"
 
