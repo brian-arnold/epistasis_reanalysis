@@ -1,0 +1,67 @@
+﻿Assigned Case,Emergent,Count,Suppressive,Order
+Fully Hidden Suppression,Synergistic,0,0,3
+Fully Hidden Suppression,Additive,0,0,3
+Fully Hidden Suppression,Antagonistic,0,0,3
+Partially Hidden Suppression,Synergistic,0,0,3
+Partially Hidden Suppression,Additive,0,0,3
+Partially Hidden Suppression,Antagonistic,0,0,3
+Hidden Suppression,Synergistic,0,0,3
+Hidden Suppression,Additive,233,0,3
+Hidden Suppression,Antagonistic,149,0,3
+Fully Nested Hidden Suppression,Synergistic,0,0,4
+Fully Nested Hidden Suppression,Additive,5,0,4
+Fully Nested Hidden Suppression,Antagonistic,3,0,4
+Nested Hidden Suppression,Synergistic,113,0,4
+Nested Hidden Suppression,Additive,1318,0,4
+Nested Hidden Suppression,Antagonistic,417,0,4
+Fully Hidden Suppression,Synergistic,0,0,4
+Fully Hidden Suppression,Additive,0,0,4
+Fully Hidden Suppression,Antagonistic,0,0,4
+Partially Hidden Suppression,Synergistic,0,0,4
+Partially Hidden Suppression,Additive,0,0,4
+Partially Hidden Suppression,Antagonistic,0,0,4
+Hidden Suppression,Synergistic,28,0,4
+Hidden Suppression,Additive,281,0,4
+Hidden Suppression,Antagonistic,93,0,4
+Fully Nested Hidden Suppression,Synergistic,0,0,5
+Fully Nested Hidden Suppression,Additive,0,0,5
+Fully Nested Hidden Suppression,Antagonistic,0,0,5
+Nested Hidden Suppression,Synergistic,259,0,5
+Nested Hidden Suppression,Additive,2455,0,5
+Nested Hidden Suppression,Antagonistic,384,0,5
+Fully Hidden Suppression,Synergistic,0,0,5
+Fully Hidden Suppression,Additive,0,0,5
+Fully Hidden Suppression,Antagonistic,0,0,5
+Partially Hidden Suppression,Synergistic,0,0,5
+Partially Hidden Suppression,Additive,0,0,5
+Partially Hidden Suppression,Antagonistic,0,0,5
+Hidden Suppression,Synergistic,719,0,5
+Hidden Suppression,Additive,1177,0,5
+Hidden Suppression,Antagonistic,550,0,5
+Not Suppressive,Synergistic,3,0,3
+Not Suppressive,Additive,603,0,3
+Not Suppressive,Antagonistic,315,0,3
+Not Suppressive,Synergistic,251,0,4
+Not Suppressive,Additive,1796,0,4
+Not Suppressive,Antagonistic,526,0,4
+Not Suppressive,Synergistic,1175,0,5
+Not Suppressive,Additive,927,0,5
+Not Suppressive,Antagonistic,953,0,5
+Fully Nested Suppression,Antagonistic Suppression,77,1,3
+Nested Suppression,Antagonistic Suppression,98,1,3
+Fully Suppressed,Antagonistic Suppression,0,1,3
+Partially Suppressed,Antagonistic Suppression,0,1,3
+No Hidden Suppression,Antagonistic Suppression,34,1,3
+Suppression,Antagonistic Suppression,0,1,3
+Fully Nested Suppression,Antagonistic Suppression,0,1,4
+Nested Suppression,Antagonistic Suppression,410,1,4
+Fully Suppressed,Antagonistic Suppression,0,1,4
+Partially Suppressed,Antagonistic Suppression,49,1,4
+No Hidden Suppression,Antagonistic Suppression,365,1,4
+Suppression,Antagonistic Suppression,3,1,4
+Fully Nested Suppression,Antagonistic Suppression,0,1,5
+Nested Suppression,Antagonistic Suppression,1309,1,5
+Fully Suppressed,Antagonistic Suppression,0,1,5
+Partially Suppressed,Antagonistic Suppression,275,1,5
+No Hidden Suppression,Antagonistic Suppression,2287,1,5
+Suppression,Antagonistic Suppression,0,1,5

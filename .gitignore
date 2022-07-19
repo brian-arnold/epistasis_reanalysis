@@ -1,3 +1,7 @@
 yeast_screens/CostanzoEtAl2016
 yeast_screens/KuzminEtAl2018
 yeast_screens/KuzminEtAl2020
+yeast_screens/database/BIOGRID/BIOGRID-ORGANISM-Saccharomyces_cerevisiae_S288c-4.4.211.tab3.txt
+yeast_screens/database/yeastgenome_dot_org/*.tab
+drug_data/Lozano-HuntelmanEtAl2021/ts2hnd72yf-1.zip
+

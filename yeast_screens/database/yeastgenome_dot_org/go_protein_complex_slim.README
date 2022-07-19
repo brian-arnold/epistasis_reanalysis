@@ -1,0 +1,47 @@
+go_protein_complex_slim.tab 
+This file is TAB delimited and contains the mapping of all yeast gene products (protein or RNA) to
+the Macromolecular Complex GO-Slim term set.
+
+Columns, separated by tabs:	
+
+1) Ontology: GO Term/GOID (mandatory)	
+2) /gene (optional)/ORF/SGDID/feature type/
+
+The first column is the GO Aspect (Component) followed by the GO term
+and its GOID.
+
+The second column contains all the genes associated to the GO Term or
+children of the GO Term.  Multiple genes are separated by a pipe (|),
+and multiple feature types are separated by a comma (,).
+
+Note on GO Slim mapping files: A GO-Slim is a subset of GO Terms that
+can be derived from the Biological Process, Molecular Function, and/or
+Cellular Component ontologies.  These may be general, high-level GO
+terms that represent major branches in each ontology, as they are in
+go_slim_mapping.tab described above, or they may be more granular
+terms that are used for a specific purpose (as in the
+go_protein_complex.tab file).
+
+As of December 2007, the "Macromolecular complex terms" GO-Slim set used to
+generate go_protein_complex_slim.tab is composed of terms that are direct children of the 
+GO component ontology term: macromolecular complex (GOID:32991) and are used to annotate S. cerevisiae gene products.
+
+The macromolecular complex terms can indicate functional relationships
+among gene products that are annotated to a particular term.  For
+example, gene products that are co-localized to the ribosome are
+likely to play a part in protein biosynthesis, so the term "ribosome"
+is part of this set.  However, the component term "nucleus" is not,
+because it is too broad a term to be able to imply that genes
+co-localized to the nucleus are likely to share the same cellular
+role.  Note that multiple parentage is not resolved, so that if both a
+child and parent term are in the term set, genes directly annotated to
+the child will be mapped to both the child and parent terms in this
+file. Also note that negative (NOT) GO annotations are not included in
+this file.
+
+Annotations made by manually curated and high-throughput methods are only included in this file.
+This file is updated weekly.
+
+For more information on the Gene Ontology (GO) project, see: 
+
+  http://www.geneontology.org/

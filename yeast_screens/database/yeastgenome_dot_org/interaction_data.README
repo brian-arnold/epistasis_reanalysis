@@ -1,0 +1,16 @@
+interaction_data.tab
+
+Contains interaction data incorporated into SGD from BioGRID (http://www.thebiogrid.org/).  Tab-separated columns are:
+
+1) Feature Name (Bait) (Required)       	- The feature name of the gene used as the bait
+2) Standard Gene Name (Bait) (Optional) 	- The standard gene name of the gene used as the bait
+3) Feature Name (Hit) (Required)        	- The feature name of the gene that interacts with the bait
+4) Standard Gene Name (Hit) (Optional)  	- The standard gene name of the gene that interacts with the bait
+5) Experiment Type (Required)   		- A description of the experimental used to identify the interaction
+6) Genetic or Physical Interaction (Required)   - Indicates whether the experimental method is a genetic or physical interaction
+7) Source (Required)    			- Lists the database source for the interaction
+8) Manually curated or High-throughput (Required)	- Lists whether the interaction was manually curated from a publication or added as part of a high-throughput dataset
+9) Notes (Optional)     			- Free text field that contains additional information about the interaction
+10) Phenotype (Optional)        		- Contains the phenotype of the interaction
+11) Reference (Required)        		- Lists the identifiers for the reference as an SGDID (SGD_REF:) or a PubMed ID (PMID:)
+12) Citation (Required) 			- Lists the citation for the reference

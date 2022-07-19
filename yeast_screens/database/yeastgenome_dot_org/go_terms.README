@@ -1,0 +1,15 @@
+go_terms.tab		This file is TAB delimited and contains the GO terms and their definitions.
+
+Columns are:			Contents:
+
+1) GOID (mandatory)		- the unique numerical identifer of the GO term
+2) GO_Term (mandatory)		- the name of the GO term
+3) GO_Aspect (mandatory)	- which ontology: P=Process, F=Function, C=Component
+4) GO_Term_Definition 		- the full definition of the GO term
+	(optional)
+
+This file is updated weekly.
+
+For more information on the Gene Ontology (GO) project, see: 
+
+  http://www.geneontology.org/
