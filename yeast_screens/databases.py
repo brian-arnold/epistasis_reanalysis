@@ -2,6 +2,7 @@
 import pandas as pd
 import numpy as np
 from collections import defaultdict
+import glob, os
 
 
 def gene_stem_name(gene):
@@ -112,3 +113,49 @@ def get_go_info():
         gene_2_go[r['Gene']].append( go_id )
 
     return gene_2_go
+
+
+def get_entrezID_2_geneName():
+
+    entrezID_2_geneName_file = "/Users/bjarnold/Princeton_DataX/Epistasis/higher_order_reanalysis/yeast_screens/database/coexpressdb/entrezid_conv/Saccharomyces_cerevisiae.gene_info" 
+
+    df = pd.read_csv(entrezID_2_geneName_file, sep="\t")
+    df.Symbol = df.Symbol.str.upper()
+    # take only gene name; numbers following hyphens represent alleles
+    df.loc[:,'Symbol2'] = [i[0] for i in df.Symbol.str.split("-")]
+    entrezID_2_geneName = dict(zip(df.GeneID, 
+                                    df.Symbol2))
+    
+    return entrezID_2_geneName
+
+
+
+def get_coexpression_gene_pairs(z_score_threshold):
+    
+    coexpress_dir = "/Users/bjarnold/Princeton_DataX/Epistasis/higher_order_reanalysis/yeast_screens/database/coexpressdb/union"
+    """
+    This directory contains one file per gene, each named with Entrez ID. Each file has a list of each other gene along with a normalized z score
+    to measure the degree of coexpression.
+    """
+    entrezID_2_geneName = get_entrezID_2_geneName()
+
+    coexpression_gene_pairs = set()
+        #for genes in zip(df[left_gene], df[right_gene]):
+        #    gene_physical_pairwise_interactions.add( tuple(sorted((gene_stem_name(genes[0].upper()), gene_stem_name(genes[1].upper())))) )
+
+    for file in glob.glob(f"{coexpress_dir}/*"):
+        entrez_id_gene1 = int(os.path.basename(file))
+        for i in open(file, 'r').readlines():
+            i_parse = i.strip().split('\t')
+            entrez_id_gene2 = int(i_parse[0])
+            coex_z_score = float(i_parse[1])
+            if coex_z_score >= z_score_threshold:
+                gene_pair = tuple(sorted((entrezID_2_geneName[entrez_id_gene1], entrezID_2_geneName[entrez_id_gene2])))
+                coexpression_gene_pairs.add( gene_pair )
+
+    return coexpression_gene_pairs
+
+
+
+
+gene_2_go = get_go_info()
