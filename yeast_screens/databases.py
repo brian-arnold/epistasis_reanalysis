@@ -19,18 +19,21 @@ def find_unique_interactions(df, left_gene, right_gene):
 
 
 def get_physical_interactions_BIOGRID():
+    # see here for explanation of experimental evidence codes: https://wiki.thebiogrid.org/doku.php/experimental_systems
     db_dir = "/Users/bjarnold/Princeton_DataX/Epistasis/higher_order_reanalysis/yeast_screens/database/BIOGRID"
     db_interactions = pd.read_csv(f"{db_dir}/BIOGRID-ORGANISM-Saccharomyces_cerevisiae_S288c-4.4.211.tab3.txt", sep="\t")
-    db_interactions = db_interactions[['Official Symbol Interactor A', 'Official Symbol Interactor B', 'Experimental System Type']]
+    db_interactions = db_interactions[['Official Symbol Interactor A', 'Official Symbol Interactor B', 'Experimental System Type', 'Experimental System']]
     db_interactions = db_interactions.rename(columns={'Official Symbol Interactor A':'official_symbol_interactor_a',
                                     'Official Symbol Interactor B':'official_symbol_interactor_b',
+                                    'Experimental System' : 'experimental_system',
                                     'Experimental System Type':'experimental_system_type'})
-    db_interactions = db_interactions[db_interactions.experimental_system_type == "physical"]
+    #db_interactions = db_interactions[db_interactions.experimental_system_type == "physical"]
+    #db_interactions = db_interactions[db_interactions.experimental_system == "Affinity Capture-MS"]
     db_interactions = db_interactions.reset_index(drop=True)
 
-    gene_physical_pairwise_interactions = find_unique_interactions(db_interactions, 'official_symbol_interactor_a', 'official_symbol_interactor_b')
+    #gene_physical_pairwise_interactions = find_unique_interactions(db_interactions, 'official_symbol_interactor_a', 'official_symbol_interactor_b')
 
-    return gene_physical_pairwise_interactions
+    return db_interactions
 
     
 
