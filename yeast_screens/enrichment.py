@@ -63,6 +63,16 @@ def fraction_physical_three(df):
     d['frac'] = d['int']/d['tot']
     return d
 
+def fraction_three_shared(df):
+    """
+    Returns a dict of the number of gene triplets in which all 3 share at elast 1 interactor
+    """
+    d = {}
+    d['tot'] = len(df.three_shared_physical_interactions)
+    d['int'] = np.sum(df.three_shared_physical_interactions)
+    d['frac'] = d['int']/d['tot']
+    return d
+
 def fraction_coex_three(df):
     """
     Returns a dict of the number of gene triplets with 3 coexpresison interactions along with the total number of triplets
