@@ -148,6 +148,8 @@ def get_go_info():
                                                     5:"GOID", 
                                                     6:"feature_type"})
     #df_go_def = pd.read_csv(f"{db_dir}/go_terms.tab", sep="\t", header=None)
+    # Li et al 2010 ("The cellular robustness by genetic redundancy in budding yeast") only look at biological process
+    df_gene_2_go = df_gene_2_go[df_gene_2_go.GO_Aspect == "P"]
 
     gene_2_go = defaultdict(list)
     for i,r in df_gene_2_go.iterrows():
