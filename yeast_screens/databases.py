@@ -67,6 +67,7 @@ def get_physical_interactions_yeastGenomeDotOrg():
 
 def count_interactions_in_set(df, interaction_set):
     num_physical_interactions = {}
+    oneplus_physical_interactions = {}
     twoplus_physical_interactions = {}
     three_physical_interactions = {}
 
@@ -85,12 +86,14 @@ def count_interactions_in_set(df, interaction_set):
             if p in interaction_set:
                 num_physical_interactions[r['alleles']] += 1
 
+        if num_physical_interactions[r['alleles']] >= 1:
+            oneplus_physical_interactions[r['alleles']] = 1
         if num_physical_interactions[r['alleles']] >= 2:
             twoplus_physical_interactions[r['alleles']] = 1
         if num_physical_interactions[r['alleles']] == 3:
             three_physical_interactions[r['alleles']] = 1
 
-    return num_physical_interactions, twoplus_physical_interactions, three_physical_interactions
+    return num_physical_interactions, oneplus_physical_interactions, twoplus_physical_interactions, three_physical_interactions
 
 def collect_interactions_in_dict(df, left_gene, right_gene):
     """
@@ -173,7 +176,7 @@ def get_entrezID_2_geneName():
     return entrezID_2_geneName
 
 
-def get_coexpression_gene_pairs(z_score_threshold):
+def get_expression_gene_pairs(z_score_threshold):
     
     coexpress_dir = "/Users/bjarnold/Princeton_DataX/Epistasis/higher_order_reanalysis/yeast_screens/database/coexpressdb/union"
     """
@@ -183,6 +186,7 @@ def get_coexpression_gene_pairs(z_score_threshold):
     entrezID_2_geneName = get_entrezID_2_geneName()
 
     coexpression_gene_pairs_set = set()
+    divexpression_gene_pairs_set = set()
         #for genes in zip(df[left_gene], df[right_gene]):
         #    gene_physical_pairwise_interactions.add( tuple(sorted((gene_stem_name(genes[0].upper()), gene_stem_name(genes[1].upper())))) )
 
@@ -192,13 +196,13 @@ def get_coexpression_gene_pairs(z_score_threshold):
             i_parse = i.strip().split('\t')
             entrez_id_gene2 = int(i_parse[0])
             coex_z_score = float(i_parse[1])
-            if coex_z_score >= z_score_threshold:
-                gene_pair = tuple(sorted((entrezID_2_geneName[entrez_id_gene1], entrezID_2_geneName[entrez_id_gene2])))
+            gene_pair = tuple(sorted((entrezID_2_geneName[entrez_id_gene1], entrezID_2_geneName[entrez_id_gene2])))
+            if coex_z_score >= abs(z_score_threshold):
                 coexpression_gene_pairs_set.add( gene_pair )
+            elif coex_z_score <= (-1)*abs(z_score_threshold):
+                divexpression_gene_pairs_set.add( gene_pair )
 
-    return coexpression_gene_pairs_set
-
-
+    return coexpression_gene_pairs_set, divexpression_gene_pairs_set
 
 
 gene_2_go = get_go_info()
