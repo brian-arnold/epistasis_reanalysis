@@ -73,6 +73,27 @@ def fraction_three_shared(df):
     d['frac'] = d['int']/d['tot']
     return d
 
+def fraction_coex_twoplus(df):
+    """
+    Returns a dict of the number of gene triplets with 3 coexpresison interactions along with the total number of triplets
+    """
+    d = {}
+    d['tot'] = len(df.twoplus_coex_interactions)
+    d['int'] = np.sum(df.twoplus_coex_interactions)
+    d['frac'] = d['int']/d['tot']
+    return d
+
+
+def fraction_coex_oneplus(df):
+    """
+    Returns a dict of the number of gene triplets with 3 coexpresison interactions along with the total number of triplets
+    """
+    d = {}
+    d['tot'] = len(df.oneplus_coex_interactions)
+    d['int'] = np.sum(df.oneplus_coex_interactions)
+    d['frac'] = d['int']/d['tot']
+    return d
+
 def fraction_coex_three(df):
     """
     Returns a dict of the number of gene triplets with 3 coexpresison interactions along with the total number of triplets
@@ -95,13 +116,14 @@ def get_hypergeom_params(sample, population):
     hypergeom.cdf(k, M, n, N, loc=0)
 
     """
+    assert sample['tot'] < population['tot'], "you've mis-used the hypergeom function"
     return [sample['int'], population['tot'], population['int'], sample['tot']]
 
 def perform_hypergeom_test(df, sign, func, multiplicative, tau_mult_sig_val):
     """
     This function automates using hypergeom.cdf for both positive and negative outliers, specified by 'sign' parameter.
     The 'func' parameter is used to categories gene triplets by physical interactions or GO categories and must return
-    a dict with keys 'int' and 'tot'
+    a dict with keys 'int' and 'tot'.
     """
     genome_wide = func(df)
     overlap, only_reported, only_mult, all_reported, all_mult = outlier_enrichment(df[df.pval < 0.05], sign, func, multiplicative, tau_mult_sig_val)
