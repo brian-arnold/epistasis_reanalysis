@@ -8,17 +8,17 @@ def load_kuzmin_2020_s1(data_dir):
     kuzmin_2020_s1 = pd.read_csv(f"{data_dir}/aaz5667-Table-S1.txt", sep="\t")
     
     kuzmin_2020_s1 = kuzmin_2020_s1.rename(columns = {"Query strain ID" : "query_strain_id",
-                        "Query allele name": "query_allele_name",
-                        "Array strain ID": "array_strain_id",
-                        "Array allele name": "array_allele_name",
-                        "Combined mutant type": "combined_mutant_type",
-                        "Raw genetic interaction score (epsilon)": "raw_interaction_score_epsilon",
-                        "Adjusted genetic interaction score (epsilon or tau)": "adjusted_interaction_score_epsilon_or_tau",
-                        "P-value": "pval",
-                        "Query single/double mutant fitness": "query_single_double_mutant_fitness",
-                        "Array single mutant fitness": "array_single_mutant_fitness",
-                        "Double/triple mutant fitness": "double_triple_mutant_fitness",
-                        "Double/triple mutant fitness standard deviation": "double_triple_mutant_fitness_std"})
+                                                        "Query allele name": "query_allele_name",
+                                                        "Array strain ID": "array_strain_id",
+                                                        "Array allele name": "array_allele_name",
+                                                        "Combined mutant type": "combined_mutant_type",
+                                                        "Raw genetic interaction score (epsilon)": "raw_interaction_score_epsilon",
+                                                        "Adjusted genetic interaction score (epsilon or tau)": "adjusted_interaction_score_epsilon_or_tau",
+                                                        "P-value": "pval",
+                                                        "Query single/double mutant fitness": "query_single_double_mutant_fitness",
+                                                        "Array single mutant fitness": "array_single_mutant_fitness",
+                                                        "Double/triple mutant fitness": "double_triple_mutant_fitness",
+                                                        "Double/triple mutant fitness standard deviation": "double_triple_mutant_fitness_std"})
 
     kuzmin_2020_s1.query_allele_name = kuzmin_2020_s1.query_allele_name.str.replace("_","")
     kuzmin_2020_s1.array_allele_name = kuzmin_2020_s1.array_allele_name.str.replace("_","")
@@ -95,12 +95,18 @@ def load_kuzmin_2020_s5(data_dir):
     kuzmin_2020_s5['alleles'] = kuzmin_2020_s5[['allele1', 'allele2']].agg(','.join, axis=1)
     kuzmin_2020_s5.alleles = kuzmin_2020_s5.alleles.str.replace("ho,","")
     kuzmin_2020_s5.alleles = kuzmin_2020_s5.alleles.str.replace("ho","")
+    kuzmin_2020_s5.alleles = kuzmin_2020_s5.alleles.str.strip(",")
 
     kuzmin_2020_s5_dblMut = kuzmin_2020_s5[kuzmin_2020_s5.mutant_type == "Double mutant"]
     kuzmin_2020_s5_singMut = kuzmin_2020_s5[kuzmin_2020_s5.mutant_type == "Single mutant"]
 
     return kuzmin_2020_s5, kuzmin_2020_s5_singMut, kuzmin_2020_s5_dblMut
 
+
+def load_kuzmin_2020_s10(data_dir):
+    kuzmin_2020_s10 = pd.read_csv(f"{data_dir}/aaz5667-Table-S10.txt", sep="\t")
+    kuzmin_2020_s10 = kuzmin_2020_s10.rename(columns={"Seq div rate": "seq_div_rate"})
+    return kuzmin_2020_s10
 
 
 

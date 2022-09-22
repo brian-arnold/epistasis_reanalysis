@@ -20,8 +20,8 @@ def outlier_enrichment(df, sign, func, multiplicative, tau_mult_sig_val):
         all_mult = func(df[df[multiplicative] > tau_mult_sig_val['pos']])
     elif sign == "negative":
         overlap = func(df[(df.adjusted_interaction_score_epsilon_or_tau < -0.08) & (df[multiplicative] < tau_mult_sig_val['neg'])])
-        only_reported = func(df[(df.adjusted_interaction_score_epsilon_or_tau < -0.08) & (df[multiplicative] > tau_mult_sig_val['neg'])])
-        only_mult = func(df[(df.adjusted_interaction_score_epsilon_or_tau > -0.08) & (df[multiplicative] < tau_mult_sig_val['neg'])])   
+        only_reported = func(df[(df.adjusted_interaction_score_epsilon_or_tau < -0.08) & (df[multiplicative] >= tau_mult_sig_val['neg'])])
+        only_mult = func(df[(df.adjusted_interaction_score_epsilon_or_tau >= -0.08) & (df[multiplicative] < tau_mult_sig_val['neg'])])   
         all_reported = func(df[df.adjusted_interaction_score_epsilon_or_tau < -0.08])
         all_mult = func(df[df[multiplicative] < tau_mult_sig_val['neg']])
 
@@ -116,7 +116,7 @@ def get_hypergeom_params(sample, population):
     hypergeom.cdf(k, M, n, N, loc=0)
 
     """
-    assert sample['tot'] < population['tot'], "you've mis-used the hypergeom function"
+    assert sample['tot'] <= population['tot'], "you've mis-used the hypergeom function"
     return [sample['int'], population['tot'], population['int'], sample['tot']]
 
 def perform_hypergeom_test(df, sign, func, multiplicative, tau_mult_sig_val):
@@ -126,7 +126,7 @@ def perform_hypergeom_test(df, sign, func, multiplicative, tau_mult_sig_val):
     a dict with keys 'int' and 'tot'.
     """
     genome_wide = func(df)
-    overlap, only_reported, only_mult, all_reported, all_mult = outlier_enrichment(df[df.pval < 0.05], sign, func, multiplicative, tau_mult_sig_val)
+    overlap, only_reported, only_mult, all_reported, all_mult = outlier_enrichment(df, sign, func, multiplicative, tau_mult_sig_val)
     # since we are looking for positive enrichments above population baseline, take 1 - CDF(x)
     overlap_htest = 1-hypergeom.cdf(*get_hypergeom_params(overlap, genome_wide))
     only_reported_htest = 1-hypergeom.cdf(*get_hypergeom_params(only_reported, genome_wide))
