@@ -104,6 +104,16 @@ def fraction_coex_three(df):
     d['frac'] = d['int']/d['tot']
     return d
 
+def fraction_threeway_shared_go(df):
+    """
+    Returns a dict of the number of gene triplets with 3 shared go terms along with the total number of triplets
+    """
+    d = {}
+    d['tot'] = len(df.threeway_shared_go)
+    d['int'] = np.sum(df.threeway_shared_go)
+    d['frac'] = d['int']/d['tot']
+    return d
+
 def get_hypergeom_params(sample, population):
     """
     Returns parameters for hypergeom.cdf in a list [k, M, n, N]

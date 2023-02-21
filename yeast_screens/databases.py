@@ -161,6 +161,29 @@ def get_go_info():
 
     return gene_2_go
 
+def count_shared_go(df):
+
+    shared_go = {}
+    for i,r in df.iterrows():
+        alleles = sorted(r['alleles'].split(","))
+        alleles = [gene_stem_name(i.upper()) for i in alleles]
+
+        go_counts = defaultdict(int)
+        shared_go[r['alleles']] = 0
+        for a in alleles:
+            if a in gene_2_go:
+                # many genes are involved in many GO categories; iterate through these
+                for g in gene_2_go[a]:
+                    go_counts[g] += 1
+    
+        counts = np.array([i[1] for i in go_counts.items()])
+        #print(np.max(counts))
+        if len(counts) > 0:
+            assert np.max(counts) <= 3
+        if np.sum(counts == 3) >= 1:
+            shared_go[r['alleles']] = 1
+    return shared_go
+
 
 def get_entrezID_2_geneName():
 
