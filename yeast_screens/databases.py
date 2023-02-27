@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 from collections import defaultdict
 import glob, os
+import re
 
 
 def gene_stem_name(gene):
@@ -155,11 +156,40 @@ def get_go_info():
     df_gene_2_go = df_gene_2_go[df_gene_2_go.GO_Aspect == "P"]
 
     gene_2_go = defaultdict(list)
+    goid_2_term = defaultdict()
     for i,r in df_gene_2_go.iterrows():
         go_id = r["GOID"].split(":")[1]
         gene_2_go[r['Gene']].append( go_id )
+        goid_2_term[go_id] = r['GO_Slim_term']
+    
+    return gene_2_go, goid_2_term
 
-    return gene_2_go
+def get_go_protein_complexes():
+    db_dir = "/Users/bjarnold/Princeton_DataX/Epistasis/higher_order_reanalysis/yeast_screens/database/yeastgenome_dot_org"
+
+    with open(f"{db_dir}/go_protein_complex_slim.tab", 'r') as f:
+        gene_2_protein_complex = defaultdict(list)
+        for line in f:
+            line = line.split('\t')
+            m = re.search(r'^Component: (.+)/\d+$', line[0])
+            #print(line[0])
+            #print(m.group(1))
+            complex_term = m.group(1)
+
+            line[1] = line[1].strip()
+            line[1] = line[1].replace("Verified/","") # data are pipe separated, with some elements containing this string
+            line[1] = line[1].replace("||","|") # removing above Verified/ string created double pipes
+            line[1] = line[1].strip("|") # removing Verified/ above creates trailing pipe
+            #print(line[1])
+            for gene in line[1].split('|'):
+                #print(gene)
+                gene_parsed = gene.split('/')
+                gene_common_name = gene_parsed[1]
+                #print(gene_common_name)
+                
+                gene_2_protein_complex[gene_common_name].append(complex_term)
+
+    return gene_2_protein_complex
 
 def count_shared_go(df):
 
@@ -228,4 +258,5 @@ def get_expression_gene_pairs(z_score_threshold):
     return coexpression_gene_pairs_set, divexpression_gene_pairs_set
 
 
-gene_2_go = get_go_info()
+gene_2_go, goid_2_term = get_go_info()
+gene_2_protein_complex = get_go_protein_complexes()
