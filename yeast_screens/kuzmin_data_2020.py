@@ -110,11 +110,12 @@ def load_kuzmin_2020_s10(data_dir):
 
 
 
-def consolidate_fitnesses_across_tables(kuzmin_2020_s1_trigenic, kuzmin_2020_s1_dblMutFit, kuzmin_2020_s1_singMutFit, kuzmin_2020_s1_epsilon, kuzmin_2020_s3_singMutFit, kuzmin_2020_s5_singMutFit, kuzmin_2020_s5_dblMutFit):
+def consolidate_fitnesses_across_tables(kuzmin_2020_s1_trigenic, kuzmin_2020_s1_dblMutFit, kuzmin_2020_s1_singMutFit, kuzmin_2020_s1_epsilon, kuzmin_2020_s1_epsilon_pvals, kuzmin_2020_s3_singMutFit, kuzmin_2020_s5_singMutFit, kuzmin_2020_s5_dblMutFit):
 
     f_ij, f_ik, f_jk = defaultdict(), defaultdict(), defaultdict()
     f_i, f_j, f_k = defaultdict(), defaultdict(), defaultdict()
-    e_ik_kuz, e_jk_kuz = defaultdict(), defaultdict()
+    e_ik_kuz, e_ik_kuz_pval = defaultdict(), defaultdict()
+    e_jk_kuz, e_jk_kuz_pval = defaultdict(), defaultdict()
 
     for i, row in kuzmin_2020_s1_trigenic.iterrows():
     #if i <= 100:
@@ -185,4 +186,21 @@ def consolidate_fitnesses_across_tables(kuzmin_2020_s1_trigenic, kuzmin_2020_s1_
             except:
                 e_jk_kuz[row['alleles']] = float('nan')
 
-    return f_i, f_j, f_k, f_ij, f_ik, f_jk, e_ik_kuz, e_jk_kuz
+       # get pairwise epistasis pvalues
+        try:
+            e_ik_kuz_pval[row['alleles']] = kuzmin_2020_s1_epsilon_pvals[ik]
+        except KeyError:
+            try:
+                e_ik_kuz_pval[row['alleles']] = kuzmin_2020_s1_epsilon_pvals[ki]
+            except:
+                e_ik_kuz_pval[row['alleles']] = float('nan')
+
+        try:
+            e_jk_kuz_pval[row['alleles']] = kuzmin_2020_s1_epsilon_pvals[jk]
+        except KeyError:
+            try:
+                e_jk_kuz_pval[row['alleles']] = kuzmin_2020_s1_epsilon_pvals[kj]
+            except:
+                e_jk_kuz_pval[row['alleles']] = float('nan')                
+
+    return f_i, f_j, f_k, f_ij, f_ik, f_jk, e_ik_kuz, e_jk_kuz, e_ik_kuz_pval, e_jk_kuz_pval
