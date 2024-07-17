@@ -2,14 +2,15 @@ import pandas as pd
 import numpy as np
 from collections import defaultdict
 from scipy.stats import hypergeom
+from typing import Callable
 
 import databases as db
 
 
-def outlier_enrichment(df, sign, func, multiplicative, tau_mult_sig_val):
+def outlier_enrichment(df : pd.DataFrame, sign : str, func : Callable[pd.DataFrame, dict], multiplicative : str, tau_mult_sig_val : dict) -> tuple[dict|int, dict|int, dict|int, dict|int]:
     """
-    This generic function passes a subselection of outliers to some external function,
-    categorizing outliers as significant for both cumulant and multiplicative scale, only cumulant (reported), or only multiplicative.
+    This generic function passes a subselection of outliers to some external function, e.g. 'fraction_three_shared',
+    categorizing outliers as significant for both chimeric and multiplicative scale, only chimeric (reported), or only multiplicative.
     The selection of data depends on whether you're interested in negative or positive outliers.
     """
     if sign == "positive":
@@ -43,7 +44,7 @@ def outlier_enrichment_both_tails(df, func, multiplicative, tau_mult_sig_val):
     return all_reported, all_mult
 
 
-def fraction_physical_twoplus(df):
+def fraction_physical_twoplus(df : pd.DataFrame) -> dict:
     """
     Returns a dict of the number of gene triplets with 2+ physical interactions along with the total number of triplets
     """
@@ -53,7 +54,7 @@ def fraction_physical_twoplus(df):
     d['frac'] = d['int']/d['tot']
     return d
 
-def fraction_physical_three(df):
+def fraction_physical_three(df : pd.DataFrame) -> dict:
     """
     Returns a dict of the number of gene triplets with 3 physical interactions along with the total number of triplets
     """
@@ -63,7 +64,7 @@ def fraction_physical_three(df):
     d['frac'] = d['int']/d['tot']
     return d
 
-def fraction_three_shared(df):
+def fraction_three_shared(df : pd.DataFrame) -> dict:
     """
     Returns a dict of the number of gene triplets in which all 3 share at elast 1 interactor
     """
@@ -73,7 +74,7 @@ def fraction_three_shared(df):
     d['frac'] = d['int']/d['tot']
     return d
 
-def fraction_coex_twoplus(df):
+def fraction_coex_twoplus(df : pd.DataFrame) -> dict:
     """
     Returns a dict of the number of gene triplets with 3 coexpresison interactions along with the total number of triplets
     """
@@ -84,7 +85,7 @@ def fraction_coex_twoplus(df):
     return d
 
 
-def fraction_coex_oneplus(df):
+def fraction_coex_oneplus(df : pd.DataFrame) -> dict:
     """
     Returns a dict of the number of gene triplets with 3 coexpresison interactions along with the total number of triplets
     """
@@ -94,7 +95,7 @@ def fraction_coex_oneplus(df):
     d['frac'] = d['int']/d['tot']
     return d
 
-def fraction_coex_three(df):
+def fraction_coex_three(df : pd.DataFrame) -> dict:
     """
     Returns a dict of the number of gene triplets with 3 coexpresison interactions along with the total number of triplets
     """
@@ -104,7 +105,7 @@ def fraction_coex_three(df):
     d['frac'] = d['int']/d['tot']
     return d
 
-def fraction_threeway_shared_go(df):
+def fraction_threeway_shared_go(df : pd.DataFrame) -> dict:
     """
     Returns a dict of the number of gene triplets with 3 shared go terms along with the total number of triplets
     """
@@ -114,7 +115,7 @@ def fraction_threeway_shared_go(df):
     d['frac'] = d['int']/d['tot']
     return d
 
-def get_hypergeom_params(sample, population):
+def get_hypergeom_params(sample : dict, population : dict) -> list[int]:
     """
     Returns parameters for hypergeom.cdf in a list [k, M, n, N]
 
@@ -155,6 +156,7 @@ def alleles_2_go_enrichment(df):
     This function calculates number of instances in which all three genes belong to the same GO category,
     specified as 'int' key (short for interaction) of a dict
     """
+    gene_2_go, goid_2_term = db.get_go_info()
     d = {}
     #go_hit_2plus = 0
     go_hit_3x = 0
@@ -164,10 +166,10 @@ def alleles_2_go_enrichment(df):
 
         go_counts = defaultdict(int)
         for a in alleles:
-            if a in db.gene_2_go:
+            if a in gene_2_go:
                 # many genes are involved in many GO categories; iterate through these
-                for g in db.gene_2_go[a]:
-                    go_counts[g] += 1
+                for go in gene_2_go[a]:
+                    go_counts[go] += 1
     
         counts = np.array([i[1] for i in go_counts.items()])
         #print(np.max(counts))

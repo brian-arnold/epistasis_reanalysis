@@ -4,7 +4,10 @@ from collections import defaultdict
 
 
 
-def load_kuzmin_2020_s1(data_dir):
+def load_kuzmin_2020_s1(data_dir : str) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    # Load and process Table S1 from Kuzmin et al. 2020
+    # More information on the information stored in each column can be found in the supplementary text of Kuzmin et al 2020
+
     kuzmin_2020_s1 = pd.read_csv(f"{data_dir}/aaz5667-Table-S1.txt", sep="\t")
     
     kuzmin_2020_s1 = kuzmin_2020_s1.rename(columns = {"Query strain ID" : "query_strain_id",
@@ -36,7 +39,7 @@ def load_kuzmin_2020_s1(data_dir):
     return kuzmin_2020_s1, kuzmin_2020_s1_digenic, kuzmin_2020_s1_trigenic
 
 
-def load_kuzmin_2020_s2(data_dir):
+def load_kuzmin_2020_s2(data_dir : str) -> pd.DataFrame:
 
     kuzmin_2020_s2 = pd.read_csv(f"{data_dir}/aaz5667-Table-S2.txt", sep="\t")
 
@@ -57,7 +60,7 @@ def load_kuzmin_2020_s2(data_dir):
 
 
 
-def load_kuzmin_2020_s3(data_dir):
+def load_kuzmin_2020_s3(data_dir : str) -> tuple[pd.DataFrame, pd.DataFrame]:
     kuzmin_2020_s3 = pd.read_csv(f"{data_dir}/aaz5667-Table-S3.txt", sep="\t")
     # note on s3: query allele fitness for digenic crosses are all NaN, only array allele fitness available
     kuzmin_2020_s3 = kuzmin_2020_s3.rename(columns = {"Query strain ID" : "query_strain_id",
@@ -81,7 +84,7 @@ def load_kuzmin_2020_s3(data_dir):
     return kuzmin_2020_s3, kuzmin_2020_s3_digenic
 
 
-def load_kuzmin_2020_s5(data_dir):
+def load_kuzmin_2020_s5(data_dir : str) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     kuzmin_2020_s5 = pd.read_csv(f"{data_dir}/aaz5667-Table-S5.txt", sep="\t")
     # S5 table with single and double mutant fitnesses
     kuzmin_2020_s5 = kuzmin_2020_s5.rename(columns = {"Allele1" : "allele1",
@@ -103,7 +106,7 @@ def load_kuzmin_2020_s5(data_dir):
     return kuzmin_2020_s5, kuzmin_2020_s5_singMut, kuzmin_2020_s5_dblMut
 
 
-def load_kuzmin_2020_s10(data_dir):
+def load_kuzmin_2020_s10(data_dir : str) -> pd.DataFrame:
     kuzmin_2020_s10 = pd.read_csv(f"{data_dir}/aaz5667-Table-S10.txt", sep="\t")
     kuzmin_2020_s10 = kuzmin_2020_s10.rename(columns={"Seq div rate": "seq_div_rate"})
     return kuzmin_2020_s10
